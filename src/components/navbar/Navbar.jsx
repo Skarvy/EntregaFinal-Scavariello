@@ -18,13 +18,13 @@ import SplitButton from "./SplitButton";
 import ItemDetails from "../items/ItemDetails";
 import Categorias from "../categories/Categorias";
 import Error404 from "./Error404";
-import Cart from "../cart/Cart"
+import Cart from "../cart/cart";
 import AuthContainer from "../AuthContainer/AuthContainer";
 import SignUp from "../AuthContainer/SingUp/SignUp";
 import UserContainer from "../user/UserContainer";
 import UserWidget from "../user/UserWidget";
 import { ShopContext } from "../../context/ShopContext";
-import Logout from "../user/Logout";
+import Logout from "../AuthContainer/Logout"
 
 
 
