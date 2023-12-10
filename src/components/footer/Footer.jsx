@@ -12,7 +12,7 @@ const Footer = () => {
       component="footer"
       sx={{
         backgroundColor: 'warning.light',
-        p: 6,
+        p: 16,
         mt: 5,
         mb: 0,
       }}
