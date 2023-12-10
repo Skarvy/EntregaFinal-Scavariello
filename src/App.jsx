@@ -1,14 +1,15 @@
-
 import Navbar from "./components/navbar/Navbar"
+import ShopComponentContext from "./context/ShopContext"
+import Footer from "./components/footer/Footer"
 
-
-function App() {
-   
+function App() { 
   
   return (
     <>
-     <Navbar/>  
-          
+        <ShopComponentContext>  
+          <Navbar/>           
+          <Footer/>     
+      </ShopComponentContext>
   
     </>
   )

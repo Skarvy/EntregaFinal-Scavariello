@@ -8,21 +8,42 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import { useNavigate, } from 'react-router-dom';
-
-const options = ['electronics', 'jewelery', "men's clothing","women's clothing"];
+import { useNavigate } from 'react-router-dom';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase/client';
 
 export default function SplitButton() {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+  const [categories, setCategories] = React.useState([]);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
- 
+  React.useEffect(() => {
+    const fetchCategories = async () => {
+      const productsCollection = collection(db, 'productos');
+      const productsSnapshot = await getDocs(productsCollection);
+
+      const uniqueCategories = new Set();
+      productsSnapshot.forEach((doc) => {
+        const productData = doc.data();
+        if (productData.categoria) {
+          uniqueCategories.add(productData.categoria);
+        }
+      });
+
+      // Convertir el conjunto a un array y ordenarlo alfabéticamente
+      const sortedCategories = Array.from(uniqueCategories).sort();
+      setCategories(sortedCategories);
+    };
+
+    fetchCategories();
+  }, []);
+
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setOpen(false);
-    const selectedCategory = options[index].toLowerCase(); 
+    const selectedCategory = categories[index].toLowerCase();
     navigate(`/categorias/${selectedCategory}`);
   };
 
@@ -46,7 +67,6 @@ export default function SplitButton() {
         aria-label="split button"
         style={{ color: 'white', border: 'none', paddingRight: 0 }}
       >
-        
         <Button
           size="small"
           aria-controls={open ? 'split-button-menu' : undefined}
@@ -54,7 +74,7 @@ export default function SplitButton() {
           aria-label="select merge strategy"
           aria-haspopup="menu"
           onClick={handleToggle}
-          style={{ color: 'white', border: 'none'}}
+          style={{ color: 'white', border: 'none' }}
         >
           <ArrowDropDownIcon />
         </Button>
@@ -68,7 +88,7 @@ export default function SplitButton() {
         role={undefined}
         transition
         disablePortal
-        style={{ marginTop: 5, }}
+        style={{ marginTop: 5 }}
       >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -79,15 +99,15 @@ export default function SplitButton() {
             }}
           >
             <Paper>
-              <ClickAwayListener onClickAway={handleClose}  >
-                <MenuList sx={{bgcolor: 'warning.light', color:'white',border:"none"}} id="split-button-menu" autoFocusItem>
-                  {options.map((option, index) => (
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList sx={{ bgcolor: 'warning.light', color: 'white', border: "none" }} id="split-button-menu" autoFocusItem>
+                  {categories.map((category, index) => (
                     <MenuItem
-                      key={option}                      
+                      key={category}
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
-                      {option}
+                      {category}
                     </MenuItem>
                   ))}
                 </MenuList>

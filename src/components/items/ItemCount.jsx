@@ -1,17 +1,19 @@
-import {Button } from "@mui/material";
-import Grid from '@mui/material/Grid';
+import React, { useContext, useState } from 'react';
+import { Button, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import { ShopContext } from '../../context/ShopContext';
+import CustomAlert from '../errors/CustomAlert';
 
-import { useState } from "react";
-
-
-export default function ItemCount({ stock, onAdd }) {
+export default function ItemCount({ item }) {
+  const { addToCart, cart } = useContext(ShopContext);
   const [count, setCount] = useState(1);
+  const [alertOpen, setAlertOpen] = useState(false);
 
   const handleIncrement = () => {
-    if (count < stock) {
+    if (count < item.stock) {
       setCount(count + 1);
     }
   };
@@ -24,33 +26,59 @@ export default function ItemCount({ stock, onAdd }) {
 
   const handleAddToCart = () => {
     if (count > 0) {
-      onAdd(count);
-      setCount(0); // 
+      addToCart(item, count);
+      setCount(1); // Reset count after adding to the cart
+      setAlertOpen(true);
     }
   };
 
-  return (
-<Grid container spacing={2} alignItems="center" justifyContent="center">
-      <Grid item>
-        <Button startIcon={<RemoveIcon />} onClick={handleDecrement}></Button>
-      </Grid>
-      <Grid item>
-        <Button>{count}</Button>
-      </Grid>
-      <Grid item>
-        <Button startIcon={<AddIcon />} onClick={handleIncrement}></Button>
-      </Grid>
+  const handleCloseAlert = () => {
+    setAlertOpen(false);
+  };
 
-      {/* Agregamos una nueva fila para el botón "Agregar al carro" */}
-      <Grid item xs={8}>
-        <Button
-          startIcon={<AddShoppingCartIcon />}
-          onClick={handleAddToCart}
-          fullWidth
-        >
-          Agregar al carro
-        </Button>
+  const isAddToCartDisabled =
+    count === 0 ||
+    count + (cart.items.find((cartItem) => cartItem.id === item.id)?.quantity || 0) >= item.stock + 1;
+
+  return (
+    <>
+      <Grid container spacing={2} alignItems="center" justifyContent="center">
+        <Grid item>
+          <Button startIcon={<RemoveIcon />} onClick={handleDecrement}></Button>
+        </Grid>
+        <Grid item>
+          <Button disabled={isAddToCartDisabled}>{count}</Button>
+        </Grid>
+        <Grid item>
+          <Button
+            startIcon={<AddIcon />}
+            onClick={handleIncrement}
+            disabled={isAddToCartDisabled || item.stock === 0}
+          ></Button>
+        </Grid>
+        <Grid item xs={8}>
+          <Button
+            startIcon={
+              isAddToCartDisabled ? (
+                <RemoveShoppingCartIcon />
+              ) : (
+                <AddShoppingCartIcon />
+              )
+            }
+            onClick={handleAddToCart}
+            fullWidth
+            disabled={isAddToCartDisabled}
+          >
+            {isAddToCartDisabled ? 'Sin stock' : 'Agregar al carro'}
+          </Button>
+        </Grid>
       </Grid>
-    </Grid>
+      <CustomAlert
+        open={alertOpen}
+        onClose={handleCloseAlert}
+        title={`Agregado al carro: `}
+        description={`${item.title}`}
+      />
+    </>
   );
 }

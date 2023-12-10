@@ -9,7 +9,7 @@ import {
 import NavListDrawer from "./NavListDrawer";
 import { useState } from "react";
 import {NavLink, Route, Routes,BrowserRouter as Router } from "react-router-dom";
-import Login from "../login/login";
+import { useContext } from "react";
 import ItemListContainer from "../items/ItemListConteiner";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Box } from "@mui/system";
@@ -18,30 +18,43 @@ import SplitButton from "./SplitButton";
 import ItemDetails from "../items/ItemDetails";
 import Categorias from "../categories/Categorias";
 import Error404 from "./Error404";
+import Cart from "../cart/cart";
+import AuthContainer from "../AuthContainer/AuthContainer";
+import SignUp from "../AuthContainer/SingUp/SignUp";
+import UserContainer from "../user/UserContainer";
+import UserWidget from "../user/UserWidget";
+import { ShopContext } from "../../context/ShopContext";
+import Logout from "../AuthContainer/Logout";
 
-const navLinks = [
-  {
-    title: "Home",
-    path: "",    
-  },
-  {
-    title: "Login",
-    path: "/login", 
-  },
-  {
-    title: "Categorias",
-    path: "/categorias",
-  },
 
-];
 
-export default function Navbar() {
+const Navbar = () => {
   const [open, setOpen] = useState(false);
+
+  const { cart } = useContext(ShopContext);
+  const buyerEmail = cart.buyer?.email;
+
+  const navLinks = [
+    {
+      title: 'Home',
+      path: '',
+    },
+    {
+      title: buyerEmail ? 'Logout' : 'Login',
+      path: buyerEmail ? '/logout' : '/login',
+    },
+    {
+      title: 'Categorias',
+      path: '/categorias',
+    },
+  ];
+  
+
 
   return (
     <Router>
       
-        <AppBar position="static" sx={{ bgcolor: 'warning.light' }}>
+        <AppBar position="static" sx={{ bgcolor: 'warning.light', marginBottom:3 }}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -52,8 +65,10 @@ export default function Navbar() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              <NavLink to="/">MercadoCopia</NavLink>
+            <Typography variant="h6" sx={{ flexGrow: 1, textDecoration: ' none', color: 'white' }}>
+              <NavLink to="/" style={{ color: 'white', textDecoration:  'none' }}>
+                  MercadoCopia
+               </NavLink>
             </Typography>
 
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
@@ -65,6 +80,8 @@ export default function Navbar() {
 
               <SplitButton />
               <CartWidget />
+              <UserWidget/>
+                    
             </Box>
           </Toolbar>
         </AppBar>
@@ -80,10 +97,15 @@ export default function Navbar() {
 
         <Routes>          
            <Route path="/" element={<ItemListContainer/>}/>
-           <Route path="/login"element={<Login />}/>
+           <Route path="/login"element={<AuthContainer/>}/>
            <Route path="/item/:id" element={<ItemDetails/>}/>
            <Route path="/categorias" element={<Categorias/>}/>
            <Route path="/categorias/:id" element={ <ItemListContainer/>}/>
+           <Route path="/cart" element={<Cart/>}/>
+           <Route path="/singup" element={<SignUp/>}/>
+           <Route path="/singup" element={<SignUp/>}/>
+           <Route path="/logout" element={<Logout/>}/>
+           <Route path="/user" element={<UserContainer/>}/>          
            <Route path="*" element={<Error404/>}/>                    
            
         </Routes>
@@ -91,3 +113,5 @@ export default function Navbar() {
     </Router>
   );
 }
+
+export default Navbar;

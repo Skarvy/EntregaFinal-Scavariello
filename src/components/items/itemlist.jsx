@@ -1,5 +1,5 @@
 import React from 'react';
-import Item from './Items';
+import Item from './Item';
 
 export default function ItemList({ data }) {
   return (
