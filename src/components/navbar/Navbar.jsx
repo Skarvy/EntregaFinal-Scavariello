@@ -18,7 +18,7 @@ import SplitButton from "./SplitButton";
 import ItemDetails from "../items/ItemDetails";
 import Categorias from "../categories/Categorias";
 import Error404 from "./Error404";
-import Cart from "../cart/cart";
+import Cart from "../carrito/cart";
 import AuthContainer from "../AuthContainer/AuthContainer";
 import SignUp from "../AuthContainer/SingUp/SignUp";
 import UserContainer from "../user/UserContainer";

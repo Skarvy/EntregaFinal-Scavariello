@@ -22,11 +22,11 @@ const Footer = () => {
           {[
             {
               title: 'About Us',
-              content: 'We are XYZ company, dedicated to providing the best service to our customers.',
+              content: 'We are MercadoCopia company, dedicated to providing the best service to our customers.',
             },
             {
               title: 'Contact Us',
-              content: '123 Main Street, Anytown, USA\nEmail: info@example.com\nPhone: +1 234 567 8901',
+              content: '123 Calle falsa, Anytown, USA\nEmail: info@example.com\ nPhone: +1 234 567 8901',
             },
             {
               title: 'Follow Us',
