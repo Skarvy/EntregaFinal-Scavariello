@@ -35,9 +35,8 @@ export default function ItemListContainer() {
           display: 'flex',
           flexDirection: 'column',
           flexWrap: 'wrap',
-          width: '100%',
-          
-          alignItems: 'center'
+          width: '100%',        
+      
         }}
       >
         {id ? <h1>{id}</h1> : <h1>Nuevos Productos</h1>}
