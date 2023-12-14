@@ -9,7 +9,7 @@ export default function CartWidget() {
   const navigate = useNavigate();
   const { cart } = useContext(ShopContext);
 
-  // Calculate the total quantity of items in the cart
+   // Calcular la cantidad total de elementos en el carrito
   const totalQuantity = cart.items.reduce((acc, item) => acc + item.quantity, 0);
 
   return (

@@ -3,30 +3,29 @@ import React, { createContext, useState } from 'react';
 export const ShopContext = createContext();
 
 const ShopProvider = ({ children }) => {
-  
-
+  // Estado inicial del carrito
   const [cart, setCart] = useState({
-    buyer: { },
-    items: [], // Initialize items as an empty array
+    buyer: {},
+    items: [], // Inicializa items como un array vacío
     total: 0,
   });
-  
 
+  // Función para agregar un ítem al carrito
   const addToCart = (item, quantity) => {
-    const { id, title, price, stock,image, } = item;
+    const { id, title, price, stock, image } = item;
 
-    // Check if the item is already in the cart
+    // Verificar si el ítem ya está en el carrito
     const existingItem = cart.items.find((cartItem) => cartItem.id === id);
 
-    // Calculate the available stock for the item in the cart
+    // Calcular el stock disponible para el ítem en el carrito
     const availableStock = existingItem ? stock - existingItem.quantity : stock;
 
-    // Check if the requested quantity exceeds the available stock
+    // Verificar si la cantidad solicitada supera el stock disponible
     const quantityToAdd = Math.min(quantity, availableStock);
 
     if (quantityToAdd > 0) {
       if (existingItem) {
-        // If the item exists, update its quantity
+        // Si el ítem existe, actualizar su cantidad
         const updatedCart = {
           ...cart,
           items: cart.items.map((cartItem) =>
@@ -38,10 +37,10 @@ const ShopProvider = ({ children }) => {
         };
         setCart(updatedCart);
       } else {
-        // If the item doesn't exist, add it to the cart
+        // Si el ítem no existe, agregarlo al carrito
         const updatedCart = {
           ...cart,
-          items: [...cart.items, { id,image, title, price, quantity: quantityToAdd }],
+          items: [...cart.items, { id, image, title, price, quantity: quantityToAdd }],
           total: cart.total + price * quantityToAdd,
         };
         setCart(updatedCart);

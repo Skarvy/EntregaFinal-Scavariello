@@ -1,116 +1,86 @@
-import {
-  AppBar,
-  Button,
-  Drawer,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import NavListDrawer from "./NavListDrawer";
-import { useState } from "react";
-import {NavLink, Route, Routes,BrowserRouter as Router } from "react-router-dom";
-import { useContext } from "react";
-import ItemListContainer from "../items/ItemListConteiner";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Box } from "@mui/system";
-import CartWidget from "./CartWidget";
-import SplitButton from "./SplitButton";
-import ItemDetails from "../items/ItemDetails";
-import Categorias from "../categories/Categorias";
-import Error404 from "../errors/Error404";
-import Cart from "../carrito/Cart";
-import SignIn from "../AuthContainer/Login/SignIn";
-import SignUp from "../AuthContainer/SingUp/SignUp";
-import UserContainer from "../user/UserContainer";
-import UserWidget from "../user/UserWidget";
-import { ShopContext } from "../../context/ShopContext";
-import Logout from "../AuthContainer/Logout"
-
-
+import React, { useContext, useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Link, BrowserRouter as Router } from 'react-router-dom';
+import AppRoutes from '../routes/AppRoutes';
+import CartWidget from './CartWidget';
+import UserWidget from '../user/UserWidget';
+import { ShopContext } from '../../context/ShopContext';
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
   const { cart } = useContext(ShopContext);
   const buyerEmail = cart.buyer?.email;
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const navLinks = [
-    {
-      title: 'Home',
-      path: '',
-    },
-    {
-      title: buyerEmail ? 'Logout' : 'Login',
-      path: buyerEmail ? '/logout' : '/login',
-    },
-    {
-      title: 'Categorias',
-      path: '/categorias',
-    },
-  ];
-  
-
+  const handleMenuOpen = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <Router>
-      
-        <AppBar position="static" sx={{ bgcolor: 'warning.light', marginBottom:3 }}>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
           <Toolbar>
-            <IconButton
-              color="inherit"
-              size="large"
-              onClick={() => setOpen(true)}
-              sx={{ display: { xs: "flex", sm: "none" } }}
-              edge="start"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" sx={{ flexGrow: 1, textDecoration: ' none', color: 'white' }}>
-              <NavLink to="/" style={{ color: 'white', textDecoration:  'none' }}>
-                  MercadoCopia
-               </NavLink>
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={handleMenuOpen}
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+                MercadoCopia
+              </Link>
             </Typography>
-
-            <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              {navLinks.map((item) => (
-                <Button color="inherit" key={item.title} component={NavLink} to={item.path}>
-                  {item.title}
-                </Button>
-              ))}
-
-              <SplitButton />
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <Button color="inherit">
+                <Link to={!buyerEmail ? "/login" : "/logout"} style={{ color: 'inherit', textDecoration: 'none' }}>
+                  {!buyerEmail ? "login" : "logout"}
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Link to="/categorias" style={{ color: 'inherit', textDecoration: 'none' }}>
+                  categorias
+                </Link>
+              </Button>
               <CartWidget />
-              <UserWidget/>
-                    
+              <UserWidget />
             </Box>
           </Toolbar>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            {menuOpen && (
+              <Box sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
+                <Button color="inherit">
+                  <Link to={!buyerEmail ? "/login" : "/logout"} style={{ color: 'inherit', textDecoration: 'none' }}>
+                    {!buyerEmail ? "login" : "logout"}
+                  </Link>
+                </Button>
+                <Button color="inherit">
+                  <Link to="/categorias" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    categorias 
+                  </Link>
+                </Button>
+                <UserWidget />
+              </Box>
+            )}
+            <CartWidget />
+          </Box>
         </AppBar>
-
-        <Drawer
-          open={open}
-          anchor="left"
-          onClose={() => setOpen(false)}
-          sx={{ display: { xs: "flex", sm: "none" } }}
-        >
-        <NavListDrawer navLinks={navLinks} />
-        </Drawer>
-
-        <Routes>          
-           <Route path="/" element={<ItemListContainer/>}/>
-           <Route path="/login"element={<SignIn/>}/>
-           <Route path="/item/:id" element={<ItemDetails/>}/>
-           <Route path="/categorias" element={<Categorias/>}/>
-           <Route path="/categorias/:id" element={ <ItemListContainer/>}/>
-           <Route path="/cart" element={<Cart/>}/>
-           <Route path="/singup" element={<SignUp/>}/>
-           <Route path="/singup" element={<SignUp/>}/>
-           <Route path="/logout" element={<Logout/>}/>
-           <Route path="/user" element={<UserContainer/>}/>          
-           <Route path="*" element={<Error404/>}/>                    
-           
-        </Routes>
-      
+        <AppRoutes />
+      </Box>
     </Router>
   );
-}
+};
 
 export default Navbar;

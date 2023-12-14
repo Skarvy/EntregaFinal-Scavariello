@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ShortcutIcon from '@mui/icons-material/Shortcut';
@@ -27,7 +27,8 @@ export default function ItemDetails() {
             ...snapshot.data(),
           });
         } else {
-          navigate("/Pagenofound")
+          // Redirigir a la página 404 si el producto no existe
+          navigate("/Pagenofound");
         }
       })
       .catch((e) => {
@@ -37,7 +38,7 @@ export default function ItemDetails() {
       .finally(() => {
         setLoading(false);
       });
-  }, [id]);
+  }, [id, navigate]);
 
   if (loading) {
     return (
@@ -53,6 +54,7 @@ export default function ItemDetails() {
         <Typography variant="h6" color="error">
           {error}
         </Typography>
+        {/* Enlace para volver a la página de inicio */}
         <Button component={Link} to="/" variant="outlined" color="primary" style={{ marginTop: 2 }}>
           Volver a Home
         </Button>
@@ -76,6 +78,7 @@ export default function ItemDetails() {
             </Typography>
 
             <Box sx={{ textAlign: 'center', marginTop: 2 }}>
+              {/* Grupo de botones para mostrar la información del producto */}
               <ButtonGroup variant="contained" aria-label="outlined button group disableElevation" fullWidth>
                 <Button onClick={() => navigate(`/categorias/`)}>Categorias</Button>
                 <Button onClick={() => navigate(`/categorias/${data.categoria}`)}>{data.categoria}</Button>
@@ -85,10 +88,12 @@ export default function ItemDetails() {
                 </Button>
               </ButtonGroup>
 
+              {/* Componente ItemCount para permitir al usuario seleccionar la cantidad */}
               <Box mt={2}>
                 <ItemCount item={data} />
               </Box>
 
+              {/* Botones para seguir comprando y ver el carrito */}
               <Button
                 endIcon={<ShortcutIcon />}
                 onClick={() => navigate("/")}

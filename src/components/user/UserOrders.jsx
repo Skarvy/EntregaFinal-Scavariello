@@ -8,12 +8,11 @@ import { db } from '../../firebase/client';
 import { ShopContext } from '../../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 
-
 const UserOrders = () => {
   const navigate = useNavigate();
   const [userOrders, setUserOrders] = useState([]);
   const { cart } = useContext(ShopContext);
- 
+
   useEffect(() => {
     const fetchUserOrders = async () => {
       const userEmail = cart.buyer.email;
@@ -35,7 +34,7 @@ const UserOrders = () => {
 
     fetchUserOrders();
   }, [cart]);
- 
+
   return (
     <Paper elevation={3} style={{ padding: '16px', margin: '16px'}}>
       <Typography variant="h5" gutterBottom>
@@ -55,18 +54,11 @@ const UserOrders = () => {
               <Typography variant="body2">
                 <strong>Order Date:</strong> {new Date(order.orderDate).toLocaleString()}
               </Typography>
+              {/* Otros detalles de la orden */}
               <Typography variant="body2">
-                <strong>Address:</strong> {order.buyer.address}
+                <strong>Estado del envío:</strong> {order.buyer.deliveryState}
               </Typography>
-              <Typography variant="body2">
-                <strong>Postal Code:</strong> {order.buyer.postalCode}
-              </Typography>
-              <Typography variant="body2">
-                <strong>House Number:</strong> {order.buyer.houseNumber}
-              </Typography>
-              <Typography variant="body2">
-                <strong>Description:</strong> {order.buyer.description}
-              </Typography>
+              {/* ... otros detalles ... */}
               <Typography variant="body2">
                 <strong>Products:</strong>
               </Typography>
@@ -74,49 +66,42 @@ const UserOrders = () => {
                 {order.items.map((item) => (
                   <ListItem key={item.title}>
                     <ListItemAvatar>
-            <Avatar alt={item.title} src={item.image} />
-          </ListItemAvatar>
+                      <Avatar alt={item.title} src={item.image} />
+                    </ListItemAvatar>
                     <ListItemText
-                    style={{ cursor: 'pointer' }}
-                    onClick={() =>navigate(`/item/${item.id}`)}                  
-                      primary={`${item.title} - Quantity: ${item.quantity} - Price: $${item.price.toFixed(2)}` }
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => navigate(`/item/${item.id}`)}
+                      primary={`${item.title} - Quantity: ${item.quantity} - Price: $${item.price.toFixed(2)}`}
                     />
                   </ListItem>
                 ))}
               </List>
-              <Typography variant="body2">
-                <strong>Total Quantity:</strong> {order.items.reduce((total, item) => total + item.quantity, 0)}
-              </Typography>
-              <Typography variant="body2">
-              <strong>Estado del envio</strong>
-              </Typography>           
-                        
-            
+              {/* ... otros detalles ... */}
+              {/* Botones para el estado del envío */}
               <Button
-  variant="contained"
-  color="primary"
-  endIcon={<DirectionsRunIcon/>}
-  disabled={order.buyer.deliveryState === 'onTheway'|| order.buyer.deliveryState === 'delivered'}
->
-  Preparándose
-</Button>
-<Button
-  variant="contained"
-  color="warning"
-  endIcon={<LocalShippingIcon/>}
-  disabled={order.buyer.deliveryState === 'preparing'|| order.buyer.deliveryState === 'delivered'}
->
-  En Camino
-</Button>
-<Button
-  variant="contained"
-  color="success"
-  endIcon={<CheckCircleOutlineIcon/>}
-  disabled={order.buyer.deliveryState === 'preparing' || order.buyer.deliveryState === 'onTheway'}
-
->
-  Entregado
-</Button>
+                variant="contained"
+                color="primary"
+                endIcon={<DirectionsRunIcon />}
+                disabled={order.buyer.deliveryState === 'onTheway' || order.buyer.deliveryState === 'delivered'}
+              >
+                Preparándose
+              </Button>
+              <Button
+                variant="contained"
+                color="warning"
+                endIcon={<LocalShippingIcon />}
+                disabled={order.buyer.deliveryState === 'preparing' || order.buyer.deliveryState === 'delivered'}
+              >
+                En Camino
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                endIcon={<CheckCircleOutlineIcon />}
+                disabled={order.buyer.deliveryState === 'preparing' || order.buyer.deliveryState === 'onTheway'}
+              >
+                Entregado
+              </Button>
             </CardContent>
           </Card>
         ))}

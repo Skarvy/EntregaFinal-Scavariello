@@ -24,11 +24,13 @@ export default function ActionAreaCard() {
         const uniqueCategories = new Set();
         const promises = [];
 
+        // Iterar sobre los productos para obtener categorías únicas y detalles de la primera imagen de cada categoría
         productsSnapshot.forEach((doc) => {
           const productData = doc.data();
           if (productData.categoria && !uniqueCategories.has(productData.categoria)) {
             uniqueCategories.add(productData.categoria);
 
+            // Crear una consulta para obtener productos de la categoría actual
             const productsQuery = query(productsCollection, where('categoria', '==', productData.categoria));
             const promise = getDocs(productsQuery).then((categoryProductsSnapshot) => {
               const firstProduct = categoryProductsSnapshot.docs[0];
@@ -62,19 +64,25 @@ export default function ActionAreaCard() {
 
   return (
     <>
-      <Typography gutterBottom variant="h2" component="div"  fontWeight="bold" textAlign="center">
-  Categorias
-</Typography>
+      {/* Título */}
+      <Typography gutterBottom variant="h2" component="div" fontWeight="bold" textAlign="center">
+        Categorias
+      </Typography>
+
+      {/* Mostrar un indicador de carga mientras se obtienen los datos */}
       {loading ? (
         <CircularProgress style={{ margin: '50px auto', display: 'block' }} />
       ) : (
-        <Grid container spacing={3} sx={{}}>
+        // Mostrar las categorías en una cuadrícula
+        <Grid container spacing={3}>
           {cardData
             .sort((a, b) => a.title.localeCompare(b.title)) // Ordenar alfabéticamente
             .map((card, index) => (
               <Grid key={index} item xs={12} sm={6} md={3}>
+                {/* Tarjeta de categoría con acción al hacer clic */}
                 <Card sx={{ maxWidth: 345, margin: 10 }}>
                   <CardActionArea onClick={() => navigate(`/categorias/${card.title.toLowerCase()}`)}>
+                    {/* Imagen de la categoría */}
                     <CardMedia
                       component="img"
                       height="140"
@@ -82,6 +90,7 @@ export default function ActionAreaCard() {
                       alt={card.title}
                       style={{ objectFit: 'contain' }}
                     />
+                    {/* Contenido de la tarjeta */}
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
                         {card.title}

@@ -16,7 +16,7 @@ const Error404 = () => {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        minHeight="80vh" // Ajusta la altura como desees
+        minHeight="80vh" 
       >
         <Typography variant="h4" gutterBottom>
           Página no encontrada

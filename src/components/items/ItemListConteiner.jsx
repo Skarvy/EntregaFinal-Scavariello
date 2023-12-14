@@ -61,7 +61,6 @@ export default function ItemListContainer() {
         {/* Mostramos un mensaje de carga o la lista de productos */}
         {loading ? (
           <CircularProgress/>
-
         ) : (
           <ItemList data={data} />
         )}

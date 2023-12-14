@@ -34,6 +34,7 @@ function SignIn() {
     const email = data.get('username');
     const password = data.get('userpassword');
 
+    // Validar si los campos de correo electrónico y contraseña están llenos
     if (!email || !password) {
       setAlertOpen(true);
       return;
@@ -46,12 +47,16 @@ function SignIn() {
     try {
       const snapshot = await getDocs(q);
 
+      // Si no se encuentra ningún usuario, mostrar una alerta
       if (snapshot.empty) {
         setAlertOpen(true);
         return;
       }
 
+      // Obtener los datos del primer usuario encontrado
       const user = snapshot.docs[0].data();
+
+      // Actualizar el carrito con la información del comprador
       setCart({
         ...cart,
         buyer: {
@@ -61,88 +66,95 @@ function SignIn() {
         },
       });
 
+      // Redirigir a la página principal después de iniciar sesión
       navigate("/");
     } catch (error) {
+      // Mostrar una alerta en caso de error
       setAlertOpen(true);
     }
   };
 
+  // Tema por defecto de MUI
   const defaultTheme = createTheme();
 
   return (
     <>
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginBottom:25
-          }}
-        >   
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Email"
-              name="username"
-              autoComplete="username"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="userpassword"
-              label="Password"
-              type="password"
-              id="userpassword"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              
-              <Grid item>
-                <Link onClick={() => navigate("/singup")} variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+      <ThemeProvider theme={defaultTheme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              marginBottom: 25,
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+              {/* Campo de entrada para el correo electrónico */}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Email"
+                name="username"
+                autoComplete="username"
+                autoFocus
+              />
+              {/* Campo de entrada para la contraseña */}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="userpassword"
+                label="Password"
+                type="password"
+                id="userpassword"
+                autoComplete="current-password"
+              />
+              {/* Checkbox para recordar la sesión */}
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              {/* Botón de inicio de sesión */}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              {/* Enlace para registrarse */}
+              <Grid container>
+                <Grid item>
+                  <Link onClick={() => navigate("/singup")} variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>          
-   
-        <CustomAlert
-          open={alertOpen}
-          onClose={handleCloseAlert}
-          title="Alerta"
-          description="Por favor, ingrese un correo electrónico y una contraseña válidos."
-        />
-      </Container>
-    </ThemeProvider>
+
+          {/* Alerta personalizada para mostrar mensajes de error */}
+          <CustomAlert
+            open={alertOpen}
+            onClose={handleCloseAlert}
+            title="Alerta"
+            description="Por favor, ingrese un correo electrónico y una contraseña válidos."
+          />
+        </Container>
+      </ThemeProvider>
     </>
-    
   );
 }
 

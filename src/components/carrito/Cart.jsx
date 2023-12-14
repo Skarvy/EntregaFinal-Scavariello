@@ -8,11 +8,18 @@ import {
   Button,
   TextField,
   Box,
-   ListItemAvatar, Avatar
+  ListItemAvatar,
+  Avatar
 } from '@mui/material';
-import { addDoc, collection, getDoc, doc, updateDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  getDoc,
+  doc,
+  updateDoc
+} from 'firebase/firestore';
 import { db } from '../../firebase/client';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import LoadingButton from '@mui/lab/LoadingButton';
 import ShortcutIcon from '@mui/icons-material/Shortcut';
@@ -20,7 +27,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import CustomAlert from '../errors/CustomAlert';
 import { ShopContext } from '../../context/ShopContext';
-
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -35,15 +41,15 @@ const Cart = () => {
   const [alertDescription, setAlertDescription] = useState('');
   const [loading, setLoading] = useState(false);
 
-  
   useEffect(() => {
-    
+    // Se maneja la lógica cuando cambia el estado de loading y el carrito está vacío
     if (!loading && cart.items.length === 0) {
       setLoading(false);
     }
   }, [loading, cart.items.length]);
 
   const handleRemoveItem = (itemId) => {
+    // Remover un item del carrito
     const itemToRemove = cart.items.find((item) => item.id === itemId);
     const updatedCart = {
       ...cart,
@@ -56,12 +62,12 @@ const Cart = () => {
   const handleCheckout = async () => {
     try {
       setLoading(true);
-  
+
       if (cart.items.length === 0) {
         showAlert('Error', 'El carrito está vacío');
         return;
       }
-  
+
       if (!buyer || !buyer.name || !buyer.phone || !buyer.email) {
         showAlert(
           'Error',
@@ -69,16 +75,17 @@ const Cart = () => {
         );
         return;
       }
-  
+
       if (!address || !postalCode || !houseNumber || !description) {
         showAlert('Error', 'Ingrese la información completa del domicilio');
         return;
       }
-  
+
       for (const item of cart.items) {
+        // Verificar el stock actualizado en Firestore antes de realizar la compra
         const productDoc = await getDoc(doc(db, 'productos', item.id));
         const currentStock = productDoc.data().stock;
-  
+
         if (item.quantity > currentStock) {
           showAlert(
             'Error',
@@ -86,13 +93,15 @@ const Cart = () => {
           );
           return;
         }
-  
+
+        // Actualizar el stock en Firestore
         await updateDoc(doc(db, 'productos', item.id), {
           stock: currentStock - item.quantity,
         });
       }
-  
+
       const currentDate = new Date();
+      // Crear una nueva orden en Firestore
       const orderRef = await addDoc(collection(db, 'orders'), {
         buyer: {
           name: buyer.name,
@@ -102,41 +111,41 @@ const Cart = () => {
           postalCode,
           houseNumber,
           description,
-          deliveryState:"preparing"
+          deliveryState: "preparing"
         },
         items: cart.items.map((item) => ({
           title: item.title,
           quantity: item.quantity,
-          image:item.image,
+          image: item.image,
           price: item.price,
-          id:item.id,
-          
-
+          id: item.id,
         })),
         total: cart.total,
         orderDate: currentDate.toISOString(),
       });
-  
+
+      // Limpiar el carrito después de realizar la compra
       setCart((prevCart) => ({
         ...prevCart,
         items: [],
         total: 0,
       }));
-  
+
       showAlert('Compra exitosa', `Número de seguimiento: ${orderRef.id}`);
     } catch (error) {
       showAlert('Error', 'Error al procesar la orden');
       console.error('Error al procesar la orden:', error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
-  
+
   const isCheckoutDisabled = cart.items.some(
     (item) => item.quantity > item.stock
   );
 
   const showAlert = (title, description) => {
+    // Mostrar una alerta con el título y la descripción proporcionados
     setAlertTitle(title);
     setAlertDescription(description);
     setAlertOpen(true);
@@ -149,7 +158,6 @@ const Cart = () => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-     
     >
       <Paper elevation={3} style={{ padding: '16px', maxWidth: '800px', width: '100%' }}>
         <Typography variant="h5" gutterBottom>
@@ -169,6 +177,7 @@ const Cart = () => {
           Shipping Information
         </Typography>
 
+        {/* Campos de dirección, código postal, número de casa y descripción */}
         <TextField
           label="Address"
           fullWidth
@@ -198,59 +207,70 @@ const Cart = () => {
           margin="normal"
         />
 
-<List>
-      {cart.items.map((item) => (
-        <ListItem key={item.id}>
-          <ListItemAvatar>
-            <Avatar alt={item.title} src={item.image} />
-          </ListItemAvatar>
-          <ListItemText
-          onClick={() =>navigate(`/item/${item.id}`)}
-            primary={item.title}
-            secondary={`Quantity: ${item.quantity}, Price: $ ${item.price.toFixed(2)}`}
-            style={{ cursor: 'pointer' }} 
-          />
-          <Button        
-            onClick={() => handleRemoveItem(item.id)}
-            variant="contained"
-            color="error"
-            >
-            <DeleteIcon/>
-          </Button>
-          
-        </ListItem>
-      ))}
-    </List>
+        {/* Lista de productos en el carrito */}
+        <List>
+          {cart.items.map((item) => (
+            <ListItem key={item.id}>
+              <ListItemAvatar>
+                <Avatar alt={item.title} src={item.image} />
+              </ListItemAvatar>
+              <ListItemText
+                onClick={() => navigate(`/item/${item.id}`)}
+                primary={item.title}
+                secondary={`Quantity: ${item.quantity}, Price: $ ${item.price.toFixed(2)}`}
+                style={{ cursor: 'pointer' }}
+              />
+              <Button
+                onClick={() => handleRemoveItem(item.id)}
+                variant="contained"
+                color="error"
+              >
+                <DeleteIcon />
+              </Button>
+            </ListItem>
+          ))}
+        </List>
 
+        {/* Mostrar el total del carrito */}
         <Typography variant="h6" style={{ marginTop: '16px' }}>
           Total: ${cart.total.toFixed(2)}
         </Typography>
+
+        {/* Botón de compra con LoadingButton para mostrar el estado de carga */}
         <LoadingButton
           variant="contained"
           color="success"
           onClick={handleCheckout}
           loading={loading}
           startIcon={<ShoppingCartCheckoutIcon />}
+          // Deshabilitar el botón si hay elementos sin stock
+          disabled={isCheckoutDisabled}
         >
           Comprar {isCheckoutDisabled && "(Sin stock)"}
         </LoadingButton>
-        <Button 
-            endIcon={<ShortcutIcon />} 
-            onClick={() => navigate("/")}
-            variant="outlined">
-            Seguir Comprando
+
+        {/* Botón para continuar comprando */}
+        <Button
+          endIcon={<ShortcutIcon />}
+          onClick={() => navigate("/")}
+          variant="outlined"
+        >
+          Seguir Comprando
         </Button>
+
+        {/* Mostrar el botón para ver las compras del usuario si está logeado */}
         {buyer.email && (
-  <Button 
-    endIcon={<LocalMallIcon />} 
-    onClick={() => navigate("/user")}
-    variant="outlined"
-  >
-    Mis Compras
-  </Button>
-)}
+          <Button
+            endIcon={<LocalMallIcon />}
+            onClick={() => navigate("/user")}
+            variant="outlined"
+          >
+            Mis Compras
+          </Button>
+        )}
       </Paper>
 
+      {/* Mostrar una alerta personalizada */}
       <CustomAlert
         open={alertOpen}
         onClose={() => setAlertOpen(false)}

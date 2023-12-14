@@ -93,7 +93,7 @@ export default function SignUp() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            marginBottom:15
+            marginBottom: 15
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -104,6 +104,7 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
+              {/* Campos de entrada para el nombre y teléfono */}
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
@@ -127,6 +128,7 @@ export default function SignUp() {
                   autoComplete="phone"
                 />
               </Grid>
+              {/* Campos de entrada para el correo electrónico y contraseña */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -137,7 +139,6 @@ export default function SignUp() {
                   name="email"
                   autoComplete="email"
                   type="email"
-                  
                 />
               </Grid>
               <Grid item xs={12}>
@@ -152,6 +153,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
+              {/* Checkbox para recibir actualizaciones por correo electrónico */}
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -159,6 +161,7 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
+            {/* Botón para enviar el formulario */}
             <Button
               type="submit"
               fullWidth
@@ -167,6 +170,7 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
+            {/* Enlace para iniciar sesión si ya tienes una cuenta */}
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link sx={{ cursor: "pointer" }} onClick={() => navigate(`/login`)} variant="body2">
@@ -177,6 +181,7 @@ export default function SignUp() {
           </Box>
         </Box>
       </Container>
+      {/* Alerta personalizada para mostrar mensajes de error */}
       <CustomAlert
         open={alertOpen}
         onClose={handleCloseAlert}
