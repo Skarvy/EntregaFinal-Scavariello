@@ -18,18 +18,17 @@ MercadoCopia es una aplicación de comercio electrónico desarrollada en React q
 
 Asegúrate de tener [Node.js](https://nodejs.org/) instalado.
 
-1. Clona el repositorio: `git clone https://github.com/tu-usuario/mercado-copia.git`
+1. Clona el repositorio: `git clone https://github.com/Skarvy/EntregaFinal-Scavariello`
 2. Entra al directorio del proyecto: `cd mercado-copia`
 3. Instala las dependencias: `npm install`
 4. Inicia la aplicación: `npm start`
 
 ## Uso
-
 1. Explora la lista de productos.
 2. Haz clic en un producto para ver más detalles.
-3. Añade productos al carrito y realiza un seguimiento de las cantidades.
+3. Inicia sesión o crea una cuenta para añadir productos al carrito y realiza un seguimiento de las cantidades.
 4. Realiza el proceso de compra y realiza un seguimiento del estado de entrega.
-
+5. Revisa el historial de compras y el estado de entrega desde la interfaz de usuario.
 
 
 ## Contacto

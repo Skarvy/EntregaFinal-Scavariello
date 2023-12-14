@@ -11,6 +11,7 @@ import AppRoutes from '../routes/AppRoutes';
 import CartWidget from './CartWidget';
 import UserWidget from '../user/UserWidget';
 import { ShopContext } from '../../context/ShopContext';
+import SplitButton from './SplitButton';
 
 const Navbar = () => {
   const { cart } = useContext(ShopContext);
@@ -24,7 +25,7 @@ const Navbar = () => {
   return (
     <Router>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar position="sticky">
           <Toolbar>
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               <IconButton
@@ -54,6 +55,7 @@ const Navbar = () => {
                   categorias
                 </Link>
               </Button>
+              <SplitButton/>
               <CartWidget />
               <UserWidget />
             </Box>
@@ -71,6 +73,7 @@ const Navbar = () => {
                     categorias 
                   </Link>
                 </Button>
+                <SplitButton/>
                 <UserWidget />
               </Box>
             )}
