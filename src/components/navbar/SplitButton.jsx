@@ -100,7 +100,7 @@ export default function SplitButton() {
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
-                <MenuList sx={{ bgcolor: 'warning.light', color: 'white', border: "none" }} id="split-button-menu" autoFocusItem>
+                <MenuList sx={{ bgcolor: 'primary.main', color: 'white', border: "none" }} id="split-button-menu" autoFocusItem>
                   {categories.map((category, index) => (
                     <MenuItem
                       key={category}

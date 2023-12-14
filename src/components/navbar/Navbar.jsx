@@ -17,9 +17,9 @@ import CartWidget from "./CartWidget";
 import SplitButton from "./SplitButton";
 import ItemDetails from "../items/ItemDetails";
 import Categorias from "../categories/Categorias";
-import Error404 from "./Error404";
-import Cart from "../carrito/cart";
-import AuthContainer from "../AuthContainer/AuthContainer";
+import Error404 from "../errors/Error404";
+import Cart from "../carrito/Cart";
+import SignIn from "../AuthContainer/Login/SignIn";
 import SignUp from "../AuthContainer/SingUp/SignUp";
 import UserContainer from "../user/UserContainer";
 import UserWidget from "../user/UserWidget";
@@ -30,7 +30,6 @@ import Logout from "../AuthContainer/Logout"
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-
   const { cart } = useContext(ShopContext);
   const buyerEmail = cart.buyer?.email;
 
@@ -92,12 +91,12 @@ const Navbar = () => {
           onClose={() => setOpen(false)}
           sx={{ display: { xs: "flex", sm: "none" } }}
         >
-          <NavListDrawer navLinks={navLinks} />
+        <NavListDrawer navLinks={navLinks} />
         </Drawer>
 
         <Routes>          
            <Route path="/" element={<ItemListContainer/>}/>
-           <Route path="/login"element={<AuthContainer/>}/>
+           <Route path="/login"element={<SignIn/>}/>
            <Route path="/item/:id" element={<ItemDetails/>}/>
            <Route path="/categorias" element={<Categorias/>}/>
            <Route path="/categorias/:id" element={ <ItemListContainer/>}/>

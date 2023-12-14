@@ -13,7 +13,7 @@ const ShopProvider = ({ children }) => {
   
 
   const addToCart = (item, quantity) => {
-    const { id, title, price, stock } = item;
+    const { id, title, price, stock,image, } = item;
 
     // Check if the item is already in the cart
     const existingItem = cart.items.find((cartItem) => cartItem.id === id);
@@ -41,7 +41,7 @@ const ShopProvider = ({ children }) => {
         // If the item doesn't exist, add it to the cart
         const updatedCart = {
           ...cart,
-          items: [...cart.items, { id, title, price, quantity: quantityToAdd }],
+          items: [...cart.items, { id,image, title, price, quantity: quantityToAdd }],
           total: cart.total + price * quantityToAdd,
         };
         setCart(updatedCart);

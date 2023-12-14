@@ -1,13 +1,14 @@
-import Navbar from "./components/navbar/Navbar"
+
 import ShopComponentContext from "./context/ShopContext"
-import Footer from "./components/footer/Footer"
+import Newnavbar from "./components/navbar/Newnavbar"
+import Footer from "./components/footer/Footer" 
 
 function App() { 
   
   return (
     <>
         <ShopComponentContext>  
-          <Navbar/>           
+           <Newnavbar/>
           <Footer/>     
       </ShopComponentContext>
   

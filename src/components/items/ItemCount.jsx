@@ -42,43 +42,53 @@ export default function ItemCount({ item }) {
 
   return (
     <>
-      <Grid container spacing={2} alignItems="center" justifyContent="center">
-        <Grid item>
-          <Button startIcon={<RemoveIcon />} onClick={handleDecrement}></Button>
-        </Grid>
-        <Grid item>
-          <Button disabled={isAddToCartDisabled}>{count}</Button>
-        </Grid>
-        <Grid item>
-          <Button
-            startIcon={<AddIcon />}
-            onClick={handleIncrement}
-            disabled={isAddToCartDisabled || item.stock === 0}
-          ></Button>
-        </Grid>
-        <Grid item xs={8}>
-          <Button
-            startIcon={
-              isAddToCartDisabled ? (
-                <RemoveShoppingCartIcon />
-              ) : (
-                <AddShoppingCartIcon />
-              )
-            }
-            onClick={handleAddToCart}
-            fullWidth
-            disabled={isAddToCartDisabled}
-          >
-            {isAddToCartDisabled ? 'Sin stock' : 'Agregar al carro'}
-          </Button>
-        </Grid>
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+    <Grid container spacing={2} alignItems="center" justifyContent="center" mt={2}>
+
+      <Grid item xs={3} sm={3}lg={1}>
+        <Button onClick={handleDecrement} fullWidth>
+          <RemoveIcon />
+        </Button>
       </Grid>
-      <CustomAlert
-        open={alertOpen}
-        onClose={handleCloseAlert}
-        title={`Agregado al carro: `}
-        description={`${item.title}`}
-      />
-    </>
+
+      <Grid item xs={3} sm={3}lg={1}>
+        <Button disabled={isAddToCartDisabled} fullWidth>
+          {count}
+        </Button>
+      </Grid>
+
+      <Grid item xs={3} sm={3}lg={1}>
+        <Button
+          onClick={handleIncrement}
+          disabled={isAddToCartDisabled || item.stock === 0}
+          fullWidth
+        >
+          <AddIcon />
+        </Button>
+      </Grid>
+
+      <Grid item xs={12} sm={3} lg={9}>
+        <Button
+          color="success"
+          variant='contained'
+          startIcon={isAddToCartDisabled ? (<RemoveShoppingCartIcon />) : (<AddShoppingCartIcon />)}
+          onClick={handleAddToCart}
+          fullWidth
+          disabled={isAddToCartDisabled}
+        >
+          {isAddToCartDisabled ? 'Sin stock' : 'Agregar al carro'}
+        </Button>
+      </Grid>
+
+    </Grid>
+    <CustomAlert
+      open={alertOpen}
+      onClose={handleCloseAlert}
+      title={`Agregado al carro:`}
+      description={`${item.title}`}
+    />
+  </div>
+</>
+
   );
 }

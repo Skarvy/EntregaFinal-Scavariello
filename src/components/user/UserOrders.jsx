@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Paper, Typography, Card, CardContent, List, ListItem, ListItemText } from '@mui/material';
+import { Paper, Typography, Card, CardContent, List, ListItem, ListItemText, ListItemAvatar, Avatar, Button } from '@mui/material';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { collection, getDocs, where, query } from 'firebase/firestore';
 import { db } from '../../firebase/client';
 import { ShopContext } from '../../context/ShopContext';
+import { useNavigate } from 'react-router-dom';
+
 
 const UserOrders = () => {
+  const navigate = useNavigate();
   const [userOrders, setUserOrders] = useState([]);
   const { cart } = useContext(ShopContext);
-
+ 
   useEffect(() => {
     const fetchUserOrders = async () => {
       const userEmail = cart.buyer.email;
@@ -29,9 +35,9 @@ const UserOrders = () => {
 
     fetchUserOrders();
   }, [cart]);
-
+ 
   return (
-    <Paper elevation={3} style={{ padding: '16px', margin: '16px', maxWidth: '800px' }}>
+    <Paper elevation={3} style={{ padding: '16px', margin: '16px'}}>
       <Typography variant="h5" gutterBottom>
         User Orders
       </Typography>
@@ -67,8 +73,13 @@ const UserOrders = () => {
               <List>
                 {order.items.map((item) => (
                   <ListItem key={item.title}>
+                    <ListItemAvatar>
+            <Avatar alt={item.title} src={item.image} />
+          </ListItemAvatar>
                     <ListItemText
-                      primary={`${item.title} - Quantity: ${item.quantity} - Price: $${item.price.toFixed(2)}`}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() =>navigate(`/item/${item.id}`)}                  
+                      primary={`${item.title} - Quantity: ${item.quantity} - Price: $${item.price.toFixed(2)}` }
                     />
                   </ListItem>
                 ))}
@@ -76,6 +87,36 @@ const UserOrders = () => {
               <Typography variant="body2">
                 <strong>Total Quantity:</strong> {order.items.reduce((total, item) => total + item.quantity, 0)}
               </Typography>
+              <Typography variant="body2">
+              <strong>Estado del envio</strong>
+              </Typography>           
+                        
+            
+              <Button
+  variant="contained"
+  color="primary"
+  endIcon={<DirectionsRunIcon/>}
+  disabled={order.buyer.deliveryState === 'onTheway'|| order.buyer.deliveryState === 'delivered'}
+>
+  Preparándose
+</Button>
+<Button
+  variant="contained"
+  color="warning"
+  endIcon={<LocalShippingIcon/>}
+  disabled={order.buyer.deliveryState === 'preparing'|| order.buyer.deliveryState === 'delivered'}
+>
+  En Camino
+</Button>
+<Button
+  variant="contained"
+  color="success"
+  endIcon={<CheckCircleOutlineIcon/>}
+  disabled={order.buyer.deliveryState === 'preparing' || order.buyer.deliveryState === 'onTheway'}
+
+>
+  Entregado
+</Button>
             </CardContent>
           </Card>
         ))}
