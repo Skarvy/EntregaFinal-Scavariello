@@ -10,6 +10,7 @@ export default function ItemListContainer() {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +33,8 @@ export default function ItemListContainer() {
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
-        // Puedes manejar el error de alguna manera, por ejemplo, mostrando un mensaje al usuario
+        setError('Ocurrió un error al obtener los datos. Estamos trabajando para resolverlo.');
+        setLoading(false);
       }
     };
 
@@ -55,7 +57,13 @@ export default function ItemListContainer() {
         {loading ? (
           <CircularProgress />
         ) : (
-          <ItemList data={data} />
+          <>
+            {error ? (
+              <div style={{ color: 'red', marginTop: '20px' }}>{error}</div>
+            ) : (
+              <ItemList data={data} />
+            )}
+          </>
         )}
       </Box>
     </>
