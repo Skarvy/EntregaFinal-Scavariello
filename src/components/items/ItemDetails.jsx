@@ -63,7 +63,7 @@ export default function ItemDetails() {
   }
 
   return (
-    <Grid container justifyContent="center" alignItems="center" spacing={3}>
+    <Grid container justifyContent="center" alignItems="center" spacing={3} marginTop={1}>
       <Grid item xs={12} sm={6}>
         <Card>
           <Typography p={3} variant="h4" component="div">
@@ -82,7 +82,7 @@ export default function ItemDetails() {
               <ButtonGroup variant="contained" aria-label="outlined button group disableElevation" fullWidth>
                 <Button onClick={() => navigate(`/categorias/`)}>Categorias</Button>
                 <Button onClick={() => navigate(`/categorias/${data.categoria}`)}>{data.categoria}</Button>
-                <Button style={{ cursor: 'default' }}>Precio: $ {data.price}</Button>
+                <Button style={{ cursor: 'default' }}>$ {data.price}</Button>
                 <Button style={{ cursor: 'default', background: data.stock === 0 ? 'red' : 'primary' }}>
                   Stock disponible: {data.stock}
                 </Button>

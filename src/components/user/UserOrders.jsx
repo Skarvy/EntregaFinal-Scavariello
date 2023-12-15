@@ -77,7 +77,7 @@ const UserOrders = () => {
                 ))}
               </List>
               {/* ... otros detalles ... */}
-              {/* Botones para el estado del envío */}
+              {/* Botones que representan el estado de envío del paquete. El botón renderizado depende del estado actual del envío. */}
               <Button
                 variant="contained"
                 color="primary"

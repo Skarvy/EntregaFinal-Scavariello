@@ -34,6 +34,12 @@ export default function SignUp() {
     setAlertOpen(false);
   };
 
+  const isEmailValid = (email) => {
+    // Expresión regular para validar el formato del correo electrónico
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -47,6 +53,14 @@ export default function SignUp() {
     if (!firstName || !phone || !email || !password) {
       setAlertTitle('Alerta');
       setAlertDescription('Todos los Campos son Obligatorios');
+      setAlertOpen(true);
+      return;
+    }
+
+    // Validar el formato del correo electrónico
+    if (!isEmailValid(email)) {
+      setAlertTitle('Alerta');
+      setAlertDescription('Por favor, introduce un correo electrónico válido.');
       setAlertOpen(true);
       return;
     }
@@ -79,7 +93,9 @@ export default function SignUp() {
       navigate(`/login`);
 
     } catch (error) {
-      console.error('Error al registrar usuario:', error);
+      setAlertTitle('Error');
+      setAlertDescription(`Error al registrar usuario: ${error.message}`);
+      setAlertOpen(true);
     }
   };
 

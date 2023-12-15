@@ -5,6 +5,7 @@ MercadoCopia es una aplicación de comercio electrónico desarrollada en React q
 ## Características
 
 - Explora una amplia variedad de productos.
+- Crea y gestiona usuarios.
 - Agrega productos al carrito de compras.
 - Realiza un seguimiento de tus órdenes y el estado de entrega.
 
