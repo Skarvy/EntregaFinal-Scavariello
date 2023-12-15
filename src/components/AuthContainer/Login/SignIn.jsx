@@ -120,11 +120,8 @@ function SignIn() {
                 id="userpassword"
                 autoComplete="current-password"
               />
-              {/* Checkbox para recordar la sesión */}
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+             
+             
               {/* Botón de inicio de sesión */}
               <Button
                 type="submit"
@@ -138,7 +135,7 @@ function SignIn() {
               <Grid container>
                 <Grid item>
                   <Link onClick={() => navigate("/singup")} variant="body2">
-                    {"Don't have an account? Sign Up"}
+                    {"No tienes una cuenta? Registrate!"}
                   </Link>
                 </Grid>
               </Grid>

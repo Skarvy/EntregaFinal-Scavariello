@@ -129,7 +129,7 @@ export default function SignUp() {
                   fullWidth
                   inputRef={firstNameRef}
                   id="firstName"
-                  label="First Name"
+                  label="Nombre"
                   autoFocus
                 />
               </Grid>
@@ -139,7 +139,7 @@ export default function SignUp() {
                   fullWidth
                   inputRef={phoneRef}
                   id="phone"
-                  label="Phone"
+                  label="Celular"
                   name="phone"
                   autoComplete="phone"
                 />
@@ -151,7 +151,7 @@ export default function SignUp() {
                   fullWidth
                   inputRef={emailRef}
                   id="email"
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   autoComplete="email"
                   type="email"
@@ -190,7 +190,7 @@ export default function SignUp() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link sx={{ cursor: "pointer" }} onClick={() => navigate(`/login`)} variant="body2">
-                  Already have an account? Sign in
+                  Ya tienes una Cuenta? logeate aqui
                 </Link>
               </Grid>
             </Grid>
