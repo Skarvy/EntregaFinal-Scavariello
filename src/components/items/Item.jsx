@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import ShortcutIcon from '@mui/icons-material/Shortcut';
-import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
 
 // La función Item recibe un objeto "item" como propiedad y lo utiliza para renderizar un elemento en la interfaz
@@ -32,7 +31,6 @@ export default function Item({ item }) {
         image={item.image}
         style={{ objectFit: 'contain' }} // Establece el estilo de ajuste del objeto en la imagen
       />
-      <Divider   />
       {/* CardContent es un componente de Material-UI para el contenido dentro de la tarjeta */}
       <CardContent sx={{ overflow: 'auto', flex: 1 }}>
         {/* Typography es un componente de Material-UI para mostrar texto */}

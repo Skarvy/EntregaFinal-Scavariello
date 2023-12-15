@@ -82,8 +82,8 @@ export default function ItemDetails() {
               <ButtonGroup variant="contained" aria-label="outlined button group disableElevation" fullWidth>
                 <Button onClick={() => navigate(`/categorias/`)}>Categorias</Button>
                 <Button onClick={() => navigate(`/categorias/${data.categoria}`)}>{data.categoria}</Button>
-                <Button style={{ cursor: 'default' }}>$ {data.price}</Button>
-                <Button style={{ cursor: 'default', background: data.stock === 0 ? 'red' : 'primary' }}>
+                <Button sx={{ cursor: 'default' }}>$ {data.price}</Button>
+                <Button sx={{ cursor: 'default', background: data.stock === 0 ? 'red' : 'primary' }}>
                   Stock disponible: {data.stock}
                 </Button>
               </ButtonGroup>

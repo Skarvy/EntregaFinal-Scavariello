@@ -3,34 +3,32 @@ import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import ItemList from './itemlist';
 import CircularProgress from '@mui/material/CircularProgress';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, limit } from 'firebase/firestore';
 import { db } from '../../firebase/client';
 
 export default function ItemListContainer() {
-  // Obtenemos el parámetro 'id' de la URL
   const { id } = useParams();
-
-  // Estado para almacenar los datos y controlar el estado de carga
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Función asíncrona para obtener datos de Firebase
     const fetchData = async () => {
       try {
-        // Referencia a la colección 'productos' en Firestore
         const productosRef = collection(db, 'productos');
 
-        // Si hay un ID en los parámetros, filtramos por la categoría correspondiente
-        const q = id ? query(productosRef, where('categoria', '==', id)) : productosRef;
+        let q;
 
-        // Obtenemos los documentos de la consulta
+        // Si hay un ID en los parámetros, filtramos por la categoría correspondiente
+        if (id) {
+          q = query(productosRef, where('categoria', '==', id));
+        } else {
+          // Si no hay un ID, limitamos la consulta a 10 documentos
+          q = query(productosRef, limit(10));
+        }
+
         const snapshot = await getDocs(q);
 
-        // Mapeamos los documentos a un array de objetos y actualizamos el estado
         setData(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-
-        // Indicamos que la carga ha terminado
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -38,13 +36,11 @@ export default function ItemListContainer() {
       }
     };
 
-    // Llamamos a la función para obtener datos
     fetchData();
   }, [id]);
 
   return (
     <>
-      {/* Contenedor principal */}
       <Box
         sx={{
           alignItems: 'center',
@@ -55,12 +51,9 @@ export default function ItemListContainer() {
           width: '100%',
         }}
       >
-        {/* Título según la existencia del parámetro 'id' */}
         {id ? <h1>{id}</h1> : <h1>Nuevos Productos</h1>}
-
-        {/* Mostramos un mensaje de carga o la lista de productos */}
         {loading ? (
-          <CircularProgress/>
+          <CircularProgress />
         ) : (
           <ItemList data={data} />
         )}

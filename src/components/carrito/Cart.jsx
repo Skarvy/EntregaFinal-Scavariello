@@ -25,6 +25,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import ShortcutIcon from '@mui/icons-material/Shortcut';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CustomAlert from '../errors/CustomAlert';
 import { ShopContext } from '../../context/ShopContext';
 
@@ -161,46 +162,46 @@ const Cart = () => {
     >
       <Paper elevation={3} style={{ padding: '16px', maxWidth: '800px', width: '100%' }}>
         <Typography variant="h5" gutterBottom>
-          Shopping Cart Info
+          Shopping Cart 
         </Typography>
 
         <Typography variant="subtitle1" gutterBottom>
-          Buyer Information:
+          Informacion del Comprador:
         </Typography>
         <Typography variant="body2" sx={{ marginBottom: 2 }}>
-          Name: {buyer.name}<br />
-          Phone: {buyer.phone}<br />
+          Nombre: {buyer.name}<br />
+         Celular: {buyer.phone}<br />
           Email: {buyer.email}
         </Typography>
 
         <Typography variant="h6" gutterBottom>
-          Shipping Information
+        Datos de Envío
         </Typography>
 
         {/* Campos de dirección, código postal, número de casa y descripción */}
         <TextField
-          label="Address"
+          label="Direccion"
           fullWidth
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           margin="normal"
         />
         <TextField
-          label="Postal Code"
+          label="Codigo Postal"
           fullWidth
           value={postalCode}
           onChange={(e) => setPostalCode(e.target.value)}
           margin="normal"
         />
         <TextField
-          label="House Number"
+          label="Numero del domicilio"
           fullWidth
           value={houseNumber}
           onChange={(e) => setHouseNumber(e.target.value)}
           margin="normal"
         />
         <TextField
-          label="Additional Info"
+          label="Datos Adicionales"
           fullWidth
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -257,17 +258,27 @@ const Cart = () => {
         >
           Seguir Comprando
         </Button>
-
+    
         {/* Mostrar el botón para ver las compras del usuario si está logeado */}
-        {buyer.email && (
-          <Button
-            endIcon={<LocalMallIcon />}
-            onClick={() => navigate("/user")}
-            variant="outlined"
-          >
-            Mis Compras
-          </Button>
-        )}
+        {buyer.email ? (
+            <Button
+    endIcon={<LocalMallIcon />}
+    onClick={() => navigate("/user")}
+    variant="outlined"
+  >
+    Mis Compras
+            </Button>
+            ) : (
+  <Button
+    endIcon={<AccountBoxIcon/>}
+    onClick={() => navigate("/login")}
+    variant="outlined"    
+  >
+    Login 
+  </Button>
+            )}
+          
+       
       </Paper>
 
       {/* Mostrar una alerta personalizada */}

@@ -38,7 +38,7 @@ const UserOrders = () => {
   return (
     <Paper elevation={3} style={{ padding: '16px', margin: '16px'}}>
       <Typography variant="h5" gutterBottom>
-        User Orders
+        Mis Compras
       </Typography>
 
       <List>
@@ -78,6 +78,7 @@ const UserOrders = () => {
               </List>
               {/* ... otros detalles ... */}
               {/* Botones que representan el estado de envío del paquete. El botón renderizado depende del estado actual del envío. */}
+
               <Button
                 variant="contained"
                 color="primary"
