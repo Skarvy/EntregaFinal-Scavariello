@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import { CardActionArea } from '@mui/material';
+import { Box, CardActionArea } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
 import { collection, getDocs, query, where } from 'firebase/firestore';
@@ -64,6 +64,7 @@ export default function ActionAreaCard() {
 
   return (
     <>
+    <Box variant="main">
       {/* Título */}
       <Typography gutterBottom variant="h2" component="div" fontWeight="bold" textAlign="center">
         Categorias
@@ -105,6 +106,7 @@ export default function ActionAreaCard() {
             ))}
         </Grid>
       )}
+      </Box>
     </>
   );
 }

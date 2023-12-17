@@ -154,11 +154,12 @@ const Cart = () => {
 
   return (
     <Box
+      variant = "main"
       m={3}
       display="flex"
       flexDirection="column"
       alignItems="center"
-      justifyContent="center"
+      justifyContent="center"     
     >
       <Paper elevation={3} style={{ padding: '16px', maxWidth: '800px', width: '100%' }}>
         <Typography variant="h5" gutterBottom>

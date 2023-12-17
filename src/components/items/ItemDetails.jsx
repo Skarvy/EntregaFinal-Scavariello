@@ -63,6 +63,7 @@ export default function ItemDetails() {
   }
 
   return (
+    <Box variant="main">
     <Grid container justifyContent="center" alignItems="center" spacing={3} marginTop={1}>
       <Grid item xs={12} sm={6}>
         <Card>
@@ -118,5 +119,6 @@ export default function ItemDetails() {
         </Card>
       </Grid>
     </Grid>
+    </Box>
   );
 }

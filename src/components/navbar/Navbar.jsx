@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <Router>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="sticky">
+        <AppBar position="sticky" sx={{top:0}}>
           <Toolbar>
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               <IconButton

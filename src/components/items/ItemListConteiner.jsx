@@ -43,7 +43,8 @@ export default function ItemListContainer() {
 
   return (
     <>
-      <Box
+      <Box 
+        variant="main"
         sx={{
           alignItems: 'center',
           justifyContent: 'center',
