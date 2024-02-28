@@ -1,44 +1,43 @@
 # MercadoCopia
 
-MercadoCopia es una aplicación de comercio electrónico desarrollada en React que te permite explorar productos, realizar compras y realizar un seguimiento de tus pedidos.
+MercadoCopia is an e-commerce application developed in React that allows you to explore products, make purchases, and track your orders.
 
-## Características
+## Features
+- Explore a wide variety of products.
+- Create and manage users.
+- Add products to the shopping cart.
+- Track your orders and delivery status.
 
-- Explora una amplia variedad de productos.
-- Crea y gestiona usuarios.
-- Agrega productos al carrito de compras.
-- Realiza un seguimiento de tus órdenes y el estado de entrega.
-
-## Tecnologías Utilizadas
-
+## Technologies Used
 - React
 - Material-UI
 - Firebase (Firestore)
 
-## Instalación
+## Installation
+1. Make sure you have Node.js installed.
+2. Clone the repository: `git clone https://github.com/Skarvy/EntregaFinal-Scavariello`
+3. Enter the project directory: `cd mercado-copia`
+4. Install dependencies: `npm install`
+5. Start the application: `npm start`
 
-Asegúrate de tener [Node.js](https://nodejs.org/) instalado.
+## Usage
+1. Explore the list of products.
+2. Click on a product to view more details.
+3. Log in or create an account to add products to the cart and track quantities.
+4. Complete the purchasing process and review purchase history from the user interface.
 
-1. Clona el repositorio: `git clone https://github.com/Skarvy/EntregaFinal-Scavariello`
-2. Entra al directorio del proyecto: `cd mercado-copia`
-3. Instala las dependencias: `npm install`
-4. Inicia la aplicación: `npm start`
+## Test User
+Use the following pre-existing user for testing:
+- Email: user@user.com
+- Password: userpassword
+This user already has 3 purchases generated, each with a different shipping status.
 
-## Uso
-1. Explora la lista de productos.
-2. Haz clic en un producto para ver más detalles.
-3. Inicia sesión o crea una cuenta para añadir productos al carrito y realiza un seguimiento de las cantidades.
-4. Realiza el proceso de compra y revisa el historial de compras desde la interfaz de usuario.
+## Contact
+For any inquiries, please contact: skardesigne@gmail.com
 
-## Usuario de Prueba
-- Utiliza el siguiente usuario preexistente para pruebas:
-  - Correo electrónico: user@user.com
-  - Contraseña: userpassword
-  - Este usuario ya tiene generadas 3 compras, cada una con un estado distinto de envío.
+## Deployment
+[Deployed Application](https://657a46fbfde4ba2c76198a48--jade-centaur-d065de.netlify.app/)
 
-## Contacto
- skardesigne@gmail.com
+## Project Repository
+[GitHub Repository](https://github.com/Skarvy/EntregaFinal-Scavariello)
 
-Link del deploy : https://657a46fbfde4ba2c76198a48--jade-centaur-d065de.netlify.app/
-
-Proyecto: https://github.com/Skarvy/EntregaFinal-Scavariello
